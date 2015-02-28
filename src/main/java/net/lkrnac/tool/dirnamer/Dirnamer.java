@@ -3,6 +3,8 @@ package net.lkrnac.tool.dirnamer;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,19 +23,30 @@ public class Dirnamer {
 	}
 
 	private static void handleDocumentDir(File rootDir, File dir) {
-		// int differrenciateSuffix = 0;
-		// @formatter:off
-		Arrays.asList(dir.listFiles()).stream()
-			.filter(child -> "epub".equals(FilenameUtils.getExtension(child.getName().toLowerCase())))
-			.forEach(child -> renameAndCopydFile(rootDir, child, dir.getName()));
-		// @formatter:on
+		int docFileIdx = 0;
+		List<File> children = Arrays.asList(dir.listFiles());
+		Collections.sort(children);
+
+		for (File child : children) {
+			if (isDocFile(child)) {
+				renameAndCopydFile(rootDir, child, dir.getName(), docFileIdx++);
+			}
+		}
 	}
 
-	private static void renameAndCopydFile(File rootDir, File file, String parentName) {
+	private static boolean isDocFile(File child) {
+		String extension = FilenameUtils.getExtension(child.getName().toLowerCase());
+		return "epub".equals(extension) || "pdf".equals(extension);
+	}
+
+	private static void renameAndCopydFile(File rootDir, File file, String parentName,
+			int differrenciateSuffix) {
 		String extenstion = FilenameUtils.getExtension(file.getName().toLowerCase());
 		String finalName = parseFileName(parentName);
 
-		String targetFile = rootDir + File.separator + finalName + "." + extenstion;
+		String suffix = (differrenciateSuffix == 0) ? "" : "." + differrenciateSuffix;
+
+		String targetFile = rootDir + File.separator + finalName + suffix + "." + extenstion;
 		System.out.println(file.getName() + " -> " + targetFile);
 		try {
 			FileUtils.copyFile(file, new File(targetFile));

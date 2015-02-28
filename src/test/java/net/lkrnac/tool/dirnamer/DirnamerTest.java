@@ -18,6 +18,22 @@ public class DirnamerTest {
 	private static final String TC_NORMAL_EPUB = TEST_DIR + File.separator
 			+ "2015-EPUB.NAME.TEST.normal.epub";
 
+	private static final String TC_NORMAL_PDF = TEST_DIR + File.separator + "2014-PDF.NAME.TEST.normal.pdf";
+
+	private static final String TC_NO_TAIL = TEST_DIR + File.separator + "2013-TAIL.PDF.NAME.TEST.no.pdf";
+
+	private static final String TC_TWO_DIFF_FILES_PDF = TEST_DIR + File.separator
+			+ "2015-DIFFERENT.FILES.TEST.two.pdf";
+
+	private static final String TC_TWO_DIFF_FILES_EPUB = TEST_DIR + File.separator
+			+ "2015-DIFFERENT.FILES.TEST.two.1.epub";
+
+	private static final String TC_TWO_SAME_FILES_EPUB = TEST_DIR + File.separator
+			+ "2015-SAME.FILES.TEST.two.epub";
+
+	private static final String TC_TWO_SAME_FILES_EPUB_1 = TEST_DIR + File.separator
+			+ "2015-SAME.FILES.TEST.two.1.epub";
+
 	@BeforeClass
 	private void copyFromTemplate() throws IOException {
 		FileUtils.copyDirectory(new File(TEMAPLATE_DIR), new File(TEST_DIR));
@@ -38,6 +54,12 @@ public class DirnamerTest {
 
 		// THEN
 		Assert.assertTrue(new File(TC_NORMAL_EPUB).exists());
+		Assert.assertTrue(new File(TC_NORMAL_PDF).exists());
+		Assert.assertTrue(new File(TC_NO_TAIL).exists());
+		Assert.assertTrue(new File(TC_TWO_DIFF_FILES_PDF).exists());
+		Assert.assertTrue(new File(TC_TWO_DIFF_FILES_EPUB).exists());
+		Assert.assertTrue(new File(TC_TWO_SAME_FILES_EPUB).exists());
+		Assert.assertTrue(new File(TC_TWO_SAME_FILES_EPUB_1).exists());
 	}
 
 }
